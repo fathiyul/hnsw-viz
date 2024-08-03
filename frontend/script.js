@@ -170,7 +170,7 @@ document.getElementById('visualizeHistory').addEventListener('click', async () =
     console.log('visualize history');
     try {
         const timestamp = new Date().getTime();
-        const response = await fetch(`${API_URL}/visualizations/hnsw-query-history.png?t=${timestamp}`);
+        const response = await fetch(`${API_URL}/visualizations/query_history.png?t=${timestamp}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

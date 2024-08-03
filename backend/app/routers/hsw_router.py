@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from typing import List, Dict, Optional
 from app.services.hsw_service import HSWService
 from app.services.viz_service import plot_data
+from app.services.files_service import delete_png_files
 import numpy as np
 import io
 
@@ -27,6 +28,7 @@ class RandomArraysParams(BaseModel):
 @router.post("/generate_random_arrays")
 async def generate_random_arrays(params: RandomArraysParams):
     global generated_arrays
+    delete_png_files()
     generated_arrays = np.random.rand(params.N, NDIM)
     visualization_path = plot_data(generated_arrays)
     return {
@@ -54,6 +56,8 @@ async def upload_arrays(file: UploadFile = File(...)):
 @router.post("/build_index")
 async def build_index(params: BuildIndexParams):
     global hsw_service, generated_arrays
+    delete_png_files('graph')
+    delete_png_files('query')
     if generated_arrays is None:
         raise HTTPException(status_code=400, detail="No arrays generated. Please generate arrays first.")
     

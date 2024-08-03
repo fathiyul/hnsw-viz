@@ -112,7 +112,7 @@ class HSWService:
         plt.title("Query Visualization")
         
         os.makedirs("visualizations", exist_ok=True)
-        file_path = 'visualizations/query_visualization.png'
+        file_path = 'visualizations/query_result.png'
         plt.savefig(file_path, format='png', dpi=300, bbox_inches='tight')
         plt.close()
         return os.path.basename(file_path)
@@ -143,7 +143,7 @@ class HSWService:
         plt.title(f"Hierarchical Navigable Small World, Level{level}", fontsize=20)
         plt.axis('off')
         plt.tight_layout()
-        plt.savefig('visualizations/hnsw-query-history.png', format='png', dpi=300, bbox_inches='tight')
+        plt.savefig('visualizations/query_history.png', format='png', dpi=300, bbox_inches='tight')
         plt.close()
 
     def visualize_graph(self, level):
@@ -158,7 +158,7 @@ class HSWService:
         plt.axis('off')
         plt.tight_layout()
         
-        file_path = f'visualizations/hnsw_graph_level_{level}.png'
+        file_path = f'visualizations/graph_level_{level}.png'
         plt.savefig(file_path, format='png', dpi=300, bbox_inches='tight')
         plt.close()
         return file_path
@@ -173,7 +173,7 @@ class HSWService:
         plt.legend()
         plt.title("HNSW Levels Visualization")
         
-        file_path = 'visualizations/hnsw_levels_visualization.png'
+        file_path = 'visualizations/graph_level_all.png'
         plt.savefig(file_path, format='png', dpi=300, bbox_inches='tight')
         plt.close()
         return file_path
@@ -189,3 +189,14 @@ class HSWService:
         for level in range(self.n_levels-1, -1, -1):
             if i in connected_nodes_level[level]:
                 return levels_color[level]
+            
+    # def delete_png_files(q=None):
+    #     fname_pattern = f'*.png'
+    #     if q is not None:
+    #         fname_pattern = f'*{q}*.png'
+    #     search_pattern = os.path.join('visualizations/', fname_pattern)
+    #     for file_path in glob.glob(search_pattern):
+    #         try:
+    #             os.remove(file_path)
+    #         except Exception as e:
+    #             print(f"Error deleting {file_path}: {e}")

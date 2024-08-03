@@ -1,0 +1,9 @@
+body {
+    padding-bottom: 50px;
+}
+
+#results, #visualizations {
+    border: 1px solid #ddd;
+    padding: 15px;
+    min-height: 200px;
+}

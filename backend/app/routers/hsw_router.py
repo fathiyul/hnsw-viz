@@ -79,7 +79,8 @@ async def get_levels():
 async def generate_random_query_vector():
     global generated_query_vector
     generated_query_vector = np.random.rand(NDIM).tolist()
-    return {"query_vector": generated_query_vector}
+    visualization_path = plot_data(generated_arrays, generated_query_vector)
+    return {"query_vector": generated_query_vector, "visualization_path": visualization_path}
 
 @router.post("/upload_query_vector")
 async def upload_query_vector(file: UploadFile = File(...)):
@@ -111,7 +112,6 @@ async def query(request: QueryRequest):
 
 @router.get("/visualizations/{file_name}")
 async def get_visualization(file_name: str):
-    print(f"File name: {file_name}")
     file_path = f"visualizations/{file_name}"
     if os.path.exists(file_path):
         return FileResponse(file_path)

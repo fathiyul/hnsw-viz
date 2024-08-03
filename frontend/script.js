@@ -27,7 +27,7 @@ document.getElementById('generateArrays').addEventListener('click', async () => 
         if (result.visualization_path) {
             const timestamp = new Date().getTime();
             const imageUrl = `${API_URL}/visualizations/${result.visualization_path}?t=${timestamp}`;
-            document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Query Visualization" style="max-width: 100%;">`;
+            document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Data Visualization" style="max-width: 100%;">`;
         } else {
             document.getElementById('visualizations').innerHTML = '';
         }
@@ -65,6 +65,15 @@ document.getElementById('buildIndex').addEventListener('click', async () => {
     try {
         const result = await makeRequest('/build_index', 'POST', { k: parseInt(k), distance_metric: distanceMetric });
         document.getElementById('results').innerHTML = `<p>${result.message}</p>`;
+        try {
+            const timestamp = new Date().getTime();
+            const response = await fetch(`${API_URL}/visualize_levels/?t=${timestamp}`);
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+            document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Levels Visualization" style="max-width: 100%;">`;
+        } catch (error) {
+            document.getElementById('visualizations').innerHTML = '';
+        }
     } catch (error) {
         document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
     }
@@ -74,6 +83,13 @@ document.getElementById('generateQueryVector').addEventListener('click', async (
     try {
         const result = await makeRequest('/generate_random_query_vector', 'POST');
         document.getElementById('results').innerHTML = `<p>Generated query vector: ${result.query_vector}</p>`;
+        if (result.visualization_path) {
+            const timestamp = new Date().getTime();
+            const imageUrl = `${API_URL}/visualizations/${result.visualization_path}?t=${timestamp}`;
+            document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Query Vector" style="max-width: 100%;">`;
+        } else {
+            document.getElementById('visualizations').innerHTML = '';
+        }
     } catch (error) {
         document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
     }
@@ -111,7 +127,8 @@ document.getElementById('executeQuery').addEventListener('click', async () => {
             <p>Distance: ${result.distance}</p>
         `;
         if (result.visualization_path) {
-            const imageUrl = `${API_URL}/visualizations/${result.visualization_path}`;
+            const timestamp = new Date().getTime();
+            const imageUrl = `${API_URL}/visualizations/${result.visualization_path}?t=${timestamp}`;
             document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Query Visualization" style="max-width: 100%;">`;
         } else {
             document.getElementById('visualizations').innerHTML = '';
@@ -125,9 +142,11 @@ document.getElementById('executeQuery').addEventListener('click', async () => {
 document.getElementById('visualizeGraph').addEventListener('click', async () => {
     const level = document.getElementById('graphLevel').value;
     try {
-        const response = await fetch(`${API_URL}/visualize_graph/${level}`);
+        const timestamp = new Date().getTime();
+        const response = await fetch(`${API_URL}/visualize_graph/${level}?t=${timestamp}`);
         const blob = await response.blob();
         const imageUrl = URL.createObjectURL(blob);
+        document.getElementById('results').innerHTML = `<p>Graph visualization level-${level}</p>`;
         document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Graph Visualization" style="max-width: 100%;">`;
     } catch (error) {
         document.getElementById('visualizations').innerHTML = `<p>Error: ${error.message}</p>`;
@@ -136,9 +155,11 @@ document.getElementById('visualizeGraph').addEventListener('click', async () => 
 
 document.getElementById('visualizeLevels').addEventListener('click', async () => {
     try {
-        const response = await fetch(`${API_URL}/visualize_levels`);
+        const timestamp = new Date().getTime();
+        const response = await fetch(`${API_URL}/visualize_levels/?t=${timestamp}`);
         const blob = await response.blob();
         const imageUrl = URL.createObjectURL(blob);
+        document.getElementById('results').innerHTML = `<p>Graph visualization: all levels</p>`;
         document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Levels Visualization" style="max-width: 100%;">`;
     } catch (error) {
         document.getElementById('visualizations').innerHTML = `<p>Error: ${error.message}</p>`;
@@ -148,7 +169,8 @@ document.getElementById('visualizeLevels').addEventListener('click', async () =>
 document.getElementById('visualizeHistory').addEventListener('click', async () => {
     console.log('visualize history');
     try {
-        const response = await fetch(`${API_URL}/visualizations/hnsw-query-history.png`);
+        const timestamp = new Date().getTime();
+        const response = await fetch(`${API_URL}/visualizations/hnsw-query-history.png?t=${timestamp}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

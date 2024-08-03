@@ -24,6 +24,13 @@ document.getElementById('generateArrays').addEventListener('click', async () => 
     try {
         const result = await makeRequest('/generate_random_arrays', 'POST', { N: parseInt(N) });
         document.getElementById('results').innerHTML = `<p>${result.message}</p>`;
+        if (result.visualization_path) {
+            const timestamp = new Date().getTime();
+            const imageUrl = `${API_URL}/visualizations/${result.visualization_path}?t=${timestamp}`;
+            document.getElementById('visualizations').innerHTML = `<img src="${imageUrl}" alt="Query Visualization" style="max-width: 100%;">`;
+        } else {
+            document.getElementById('visualizations').innerHTML = '';
+        }
     } catch (error) {
         document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
     }

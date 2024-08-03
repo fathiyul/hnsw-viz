@@ -4,6 +4,7 @@ import os
 from pydantic import BaseModel
 from typing import List, Dict, Optional
 from app.services.hsw_service import HSWService
+from app.services.viz_service import plot_data
 import numpy as np
 import io
 
@@ -27,7 +28,11 @@ class RandomArraysParams(BaseModel):
 async def generate_random_arrays(params: RandomArraysParams):
     global generated_arrays
     generated_arrays = np.random.rand(params.N, NDIM)
-    return {"message": f"Generated {params.N} random arrays with {NDIM} dimensions"}
+    visualization_path = plot_data(generated_arrays)
+    return {
+        "message": f"Generated {params.N} random arrays with {NDIM} dimensions",
+        "visualization_path": visualization_path
+    }
 
 
 @router.post("/upload_arrays")

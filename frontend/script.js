@@ -36,28 +36,28 @@ document.getElementById('generateArrays').addEventListener('click', async () => 
     }
 });
 
-document.getElementById('uploadArrays').addEventListener('click', async () => {
-    const fileInput = document.getElementById('arrayUpload');
-    const file = fileInput.files[0];
-    if (!file) {
-        alert('Please select a file first.');
-        return;
-    }
+// document.getElementById('uploadArrays').addEventListener('click', async () => {
+//     const fileInput = document.getElementById('arrayUpload');
+//     const file = fileInput.files[0];
+//     if (!file) {
+//         alert('Please select a file first.');
+//         return;
+//     }
     
-    const formData = new FormData();
-    formData.append('file', file);
+//     const formData = new FormData();
+//     formData.append('file', file);
     
-    try {
-        const response = await fetch(`${API_URL}/upload_arrays`, {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        document.getElementById('results').innerHTML = `<p>${result.message}</p>`;
-    } catch (error) {
-        document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
-    }
-});
+//     try {
+//         const response = await fetch(`${API_URL}/upload_arrays`, {
+//             method: 'POST',
+//             body: formData
+//         });
+//         const result = await response.json();
+//         document.getElementById('results').innerHTML = `<p>${result.message}</p>`;
+//     } catch (error) {
+//         document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
+//     }
+// });
 
 document.getElementById('buildIndex').addEventListener('click', async () => {
     const k = document.getElementById('neighborCount').value;
@@ -79,28 +79,28 @@ document.getElementById('generateQueryVector').addEventListener('click', async (
     }
 });
 
-document.getElementById('uploadQueryVector').addEventListener('click', async () => {
-    const fileInput = document.getElementById('queryVectorUpload');
-    const file = fileInput.files[0];
-    if (!file) {
-        alert('Please select a file first.');
-        return;
-    }
+// document.getElementById('uploadQueryVector').addEventListener('click', async () => {
+//     const fileInput = document.getElementById('queryVectorUpload');
+//     const file = fileInput.files[0];
+//     if (!file) {
+//         alert('Please select a file first.');
+//         return;
+//     }
     
-    const formData = new FormData();
-    formData.append('file', file);
+//     const formData = new FormData();
+//     formData.append('file', file);
     
-    try {
-        const response = await fetch(`${API_URL}/upload_query_vector`, {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        document.getElementById('results').innerHTML = `<p>Uploaded query vector: ${result.query_vector}</p>`;
-    } catch (error) {
-        document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
-    }
-});
+//     try {
+//         const response = await fetch(`${API_URL}/upload_query_vector`, {
+//             method: 'POST',
+//             body: formData
+//         });
+//         const result = await response.json();
+//         document.getElementById('results').innerHTML = `<p>Uploaded query vector: ${result.query_vector}</p>`;
+//     } catch (error) {
+//         document.getElementById('results').innerHTML = `<p>Error: ${error.message}</p>`;
+//     }
+// });
 
 document.getElementById('executeQuery').addEventListener('click', async () => {
     try {
